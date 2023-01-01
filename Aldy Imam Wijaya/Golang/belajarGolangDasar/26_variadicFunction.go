@@ -2,7 +2,7 @@ package main
 
 import "fmt";
 
-func getPenjumlahan(angka ...int) int {
+func getPenjumlahan(nama, kota string, angka ...int) int {
 	
 	total := 0;
 
@@ -16,6 +16,6 @@ func getPenjumlahan(angka ...int) int {
 
 func main() {
 	
-	total := getPenjumlahan(10, 10, 10, 10, )
+	total := getPenjumlahan("Aldy", "Malang", 10, 10, 10, 10, )
 	fmt.Println(total)
 }
