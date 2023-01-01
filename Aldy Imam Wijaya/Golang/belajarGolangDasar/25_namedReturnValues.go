@@ -3,7 +3,7 @@ package main;
 import "fmt";
 
 // perbedaan dengan bab 24 ada di baris 5
-func getBiodata2() (namaLengkap string, nim int64){
+func getBiodata() (namaLengkap string, nim int64){
 	namaLengkap = "Aldy Imam Wijaya";
 	nim = 215150700111039;
 
@@ -14,7 +14,7 @@ func getBiodata2() (namaLengkap string, nim int64){
 };
 
 func main() {
-	var namaLengkap, nim = getBiodata2();
+	var namaLengkap, nim = getBiodata();
 
 	fmt.Println("NAMA \t: ", namaLengkap);
 	fmt.Println("NIM \t: ", nim);
