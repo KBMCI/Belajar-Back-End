@@ -2,7 +2,12 @@ package main;
 
 import "fmt";
 
+func getGoodBye(nama string) string  {
+	return "Selamat tinggal" + nama
+}
+
 func main() {
 	
-	fmt.Println("")
+	a := getGoodBye;
+	fmt.Println(a(" Aldy"))
 };
