@@ -17,11 +17,26 @@ func (person Person) GetName() string  {
 	return person.Nama
 }
 
+type Animal struct{
+	Nama string
+}
+
+func (animal Animal) GetName() string {
+	return animal.Nama
+}
+
 func main() {
+	// cara 1 
 	var aldy Person 
 	aldy.Nama = "Aldy"
 
 	sayHello(aldy)
 
+	// cara 2
+	cat := Animal{
+		Nama: "Oyen",
+	}
+
+	sayHello(cat)
 	// bingung juga si sksksksksk
 }
