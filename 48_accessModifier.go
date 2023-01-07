@@ -6,7 +6,7 @@ import (
 )
  // kalo dijava yang biasanya classnya public, private gitu gitu deh pokoknya
 
-func main49() {
+func main48() {
 	fmt.Println(helper.Application) // tidak error
 
 	// fmt.Println(helper.version)
