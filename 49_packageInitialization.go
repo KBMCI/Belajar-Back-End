@@ -7,7 +7,7 @@ import (
 	"fmt"
 )
 
-func main() {
+func main49() {
 	hasil := database.GetDatabase()
 	fmt.Println(hasil)
 }
