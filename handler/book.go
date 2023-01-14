@@ -12,7 +12,16 @@ import (
 
 // Membuat handler
 // nama fungsi disesuaikan dengan nama route jika /hello nama : helloHandler
-func RootHandler(c *gin.Context) {
+
+type bookHandler struct {
+	bookService book.Service
+}
+
+func NewBookHandler(bookService book.Service) *bookHandler {
+	return &bookHandler{bookService}
+}
+
+func (h *bookHandler) RootHandler(c *gin.Context) {
 	// c.JSON digunakan untuk mengirim data
 	c.JSON(http.StatusOK, gin.H{
 		"name": "Wisnu",
@@ -20,7 +29,7 @@ func RootHandler(c *gin.Context) {
 	})
 }
 
-func BooksHandler(c *gin.Context) {
+func (h *bookHandler) BooksHandler(c *gin.Context) {
 	//untuk menangkap variable menggunakan param
 	id := c.Param("id")
 
@@ -29,7 +38,7 @@ func BooksHandler(c *gin.Context) {
 	})
 }
 
-func QueryHandler(c *gin.Context) {
+func (h *bookHandler) QueryHandler(c *gin.Context) {
 	//untuk menangkap query string menggunakan Query()
 	title := c.Query("title")
 	price := c.Query("price")
@@ -40,7 +49,7 @@ func QueryHandler(c *gin.Context) {
 	})
 }
 
-func PostBooksHandler(c *gin.Context) {
+func (h *bookHandler) PostBooksHandler(c *gin.Context) {
 	var BookRequest book.BookRequest
 
 	//Memasukkan data post ke bookInput
@@ -63,9 +72,16 @@ func PostBooksHandler(c *gin.Context) {
 
 	fmt.Println(BookRequest)
 
+	book, err := h.bookService.Create(BookRequest)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"errors": err,
+		})
+		return
+	}
+
 	c.JSON(http.StatusOK, gin.H{
-		"title":     BookRequest.Title,
-		"price":     BookRequest.Price,
-		"sub_title": BookRequest.SubTitle,
+		"data": book,
 	})
 }

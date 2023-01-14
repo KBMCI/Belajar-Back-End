@@ -26,8 +26,9 @@ func (s *service) Create(bookRequest BookRequest) (Book, error) {
 	price, _ := bookRequest.Price.Int64()
 	book := Book{
 		Title:       bookRequest.Title,
-		Description: bookRequest.SubTitle,
+		Description: bookRequest.Description,
 		Price:       int(price),
+		Rating: bookRequest.Rating,
 	}
 	return s.repository.Create(book)
 }
