@@ -30,13 +30,14 @@ func main() {
 	bookService := book.NewService(bookRepository)
 	bookHandler := handler.NewBookHandler(bookService)
 
+	/*
 	bookRequest := book.BookRequest{
 		Title:       "Gundam",
 		Price:       "200000",
 	}
 	
 	bookService.Create(bookRequest)
-
+	**/
 
 	// CRUD
 	// CREATE
@@ -109,9 +110,12 @@ func main() {
 	// Dapat digunakan apabila terjadi perubahan nama attribut pada json
 	v1 := router.Group("/v1")
 	v1.GET("/", bookHandler.RootHandler)
-	v1.GET("/books/:id", bookHandler.BooksHandler)
 	v1.GET("/query", bookHandler.QueryHandler)
-	v1.POST("/books", bookHandler.PostBooksHandler)
+	v1.GET("/books", bookHandler.GetBooks)
+	v1.GET("/books/:id", bookHandler.GetBook)
+	v1.POST("/books", bookHandler.CreateBook)
+	v1.PUT("/books/:id", bookHandler.UpdateBook)
+	v1.DELETE("/books/:id", bookHandler.DeleteBook)
 
 	// menjalankan server
 	router.Run() // -> port default 8080
