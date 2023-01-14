@@ -41,10 +41,10 @@ func QueryHandler(c *gin.Context) {
 }
 
 func PostBooksHandler(c *gin.Context) {
-	var bookInput book.BookInput
+	var BookRequest book.BookRequest
 
 	//Memasukkan data post ke bookInput
-	err := c.ShouldBindJSON(&bookInput) // menggunakan pointer karena kalo tidak maka bookInput yang menerima data hasil post hanya secara local variable
+	err := c.ShouldBindJSON(&BookRequest) // menggunakan pointer karena kalo tidak maka bookInput yang menerima data hasil post hanya secara local variable
 	if err != nil {
 		errorMessages := []string{}
 		for _, e := range err.(validator.ValidationErrors) {
@@ -61,11 +61,11 @@ func PostBooksHandler(c *gin.Context) {
 		// log.Fatal(err) -> log.fatal dapat menampilkan error yang disertai mengakhiri program
 	}
 
-	fmt.Println(bookInput)
+	fmt.Println(BookRequest)
 
 	c.JSON(http.StatusOK, gin.H{
-		"title":     bookInput.Title,
-		"price":     bookInput.Price,
-		"sub_title": bookInput.SubTitle,
+		"title":     BookRequest.Title,
+		"price":     BookRequest.Price,
+		"sub_title": BookRequest.SubTitle,
 	})
 }

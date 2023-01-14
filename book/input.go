@@ -3,7 +3,7 @@ package book
 import "encoding/json"
 
 // untuk menerima data yang dirikim melalui post dapat diterima menggunakan struct
-type BookInput struct {
+type BookRequest struct {
 	// Pemberian nama property harus sama dengan data yang di POST
 
 	// json: -> Untuk mengidentifikasi nama pada json API

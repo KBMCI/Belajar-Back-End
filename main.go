@@ -27,14 +27,14 @@ func main() {
 	db.AutoMigrate(&book.Book{})
 
 	bookRepository := book.NewRepository(db)
-	book := book.Book{
-		Title:       "Bumi Manusia",
-		Description: "Buku motivasi",
-		Price:       80000,
-		Rating:      5,
+	bookService := book.NewService(bookRepository)
+
+	bookRequest := book.BookRequest{
+		Title:       "Gundam",
+		Price:       "200000",
 	}
 	
-	bookRepository.Create(book)
+	bookService.Create(bookRequest)
 
 
 	// CRUD
