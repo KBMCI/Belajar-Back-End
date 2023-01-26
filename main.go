@@ -1,34 +1,43 @@
 package main
 
 import (
-	"net/http"
+	"fmt"
+	"log"
 
 	"github.com/gin-gonic/gin"
+
+	"belajar-back-end/book"
+	"belajar-back-end/handler"
+
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
 )
 
 func main() {
+	// connect database
+	dsn := "root:@tcp(127.0.0.1:3306)/belajar-back-end?charset=utf8mb4&parseTime=True&loc=Local"
+  	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	
+	if err != nil {
+		log.Fatal("Db connection error")
+	}
+
+	fmt.Println("Database connection success")
+	db.AutoMigrate(&book.Book{})
+
 	r := gin.Default()
 
-	// coba buat routing 
-	r.GET("/", rootHandler)
+	// grouping by version
+	v1 := r.Group("/v1")
 
-	r.GET("/hello", helloHandler)
+	// coba buat routing 
+	v1.GET("/", handler.RootHandler)
+	v1.GET("/hello", handler.HelloHandler)
+	v1.GET("/books/:id/:title", handler.BooksHandler)
+	v1.GET("/query", handler.QueryHandler)
+	v1.POST("/books", handler.PostBooksHandler)
 
 	r.Run()
 	// bisa mengganti default port
 	// r.Run(":8888")
-}
-
-// membuat function handler agar lebih ringkas
-func rootHandler(c *gin.Context)  {
-	c.JSON(http.StatusOK, gin.H{
-		"title": "ini title",
-		"content": "ini content",
-	})
-}
-
-func helloHandler(c *gin.Context)  {
-	c.JSON(http.StatusOK, gin.H{
-		"message": "Hello World",
-	})
 }
