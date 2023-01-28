@@ -13,6 +13,14 @@ import (
 	"gorm.io/gorm"
 )
 
+// Alur
+// main
+// handler
+// service
+// repository
+// db
+// mysql
+
 func main() {
 	// connect database
 	dsn := "root:@tcp(127.0.0.1:3306)/belajar-back-end?charset=utf8mb4&parseTime=True&loc=Local"
@@ -26,45 +34,50 @@ func main() {
 	db.AutoMigrate(&book.Book{})
 
 	// ==============================
-	// CRUD with layering repository
+	// CRUD with layering by service
 	// ==============================
 
 	bookRepository := book.NewRepository(db)
+	bookService := book.NewService(bookRepository)
 
-	books, err := bookRepository.FindAll()
+	// =================
+	// READ ALL
+	// =================
+	books, err := bookService.FindAll()
 	if err != nil {
 		fmt.Println("================================")
 		fmt.Println("Error saat menampilkan data buku")
 		fmt.Println("================================")
 	}
-
+	
 	for _, book := range books {
 		fmt.Println("Title :", book.Title)
 	}
 
-	idBook, err := bookRepository.FindById(1)
+	// =================
+	// READ BY ID
+	// =================
+	idBook, err := bookService.FindById(1)
 	if err != nil {
 		fmt.Println("================================")
 		fmt.Println("Error saat menampilkan data buku")
 		fmt.Println("================================")
 	}
 
-	fmt.Println("Title :", idBook.Title)
+	fmt.Println("Cari Title by id :", idBook.Title)
 
-	book := book.Book{
-		Title: "Buku 3",
-		Description: "Deskripsi buku 3",
-		Price: 95000,
-		Rating: 4,
-		Discount: 0,
-	}
+	// =================
+	// CREATE DATA BOOK
+	// =================
+	// bookRequest := book.BookRequest{
+	// 	Title: "Buku 9",
+	// 	Description: "Deskripsi buku 9",
+	// 	Price: 100000,
+	// 	Rating: 5,
+	// 	Discount: 20,
+	// }
 
-	err = bookRepository.Create(book)
-	if err != nil {
-		fmt.Println("===============================")
-		fmt.Println("Error saat memasukkan data buku")
-		fmt.Println("===============================")
-	}
+	// bookService.CreateBook(bookRequest)
 
 	// ============================
 	// CRUD not layering repository

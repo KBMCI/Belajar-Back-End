@@ -1,18 +1,6 @@
 package book
 
-import (
-	"encoding/json"
-	"time"
-)
-
-// struct untuk menerima data dari body POST books postman
-type BookInput struct {
-	Title 		string		`json:"title" binding:"required"`
-	// json.Number untuk validasi error jika yg diinputkan bukan number/untuk menghindari internal server error
-	Price 		json.Number	`json:"price" binding:"required"`
-	// untuk menangkap body json SubTitle
-	SubTitle 	string 		`json:"sub_title" binding:"required"`
-}
+import "time"
 
 type Book struct {
 	ID 			int
