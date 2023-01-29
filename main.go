@@ -13,14 +13,6 @@ import (
 	"gorm.io/gorm"
 )
 
-// Alur
-// main
-// handler
-// service
-// repository
-// db
-// mysql
-
 func main() {
 	// connect database
 	dsn := "root:@tcp(127.0.0.1:3306)/belajar-back-end?charset=utf8mb4&parseTime=True&loc=Local"
@@ -33,38 +25,40 @@ func main() {
 	fmt.Println("Database connection success")
 	db.AutoMigrate(&book.Book{})
 
-	// ==============================
-	// CRUD with layering by service
-	// ==============================
+	// ===============================================================
+	// CRUD with layering by handler 
+	// ALUR : main -> handler-> service -> repository -> db -> mysql
+	// ===============================================================
 
 	bookRepository := book.NewRepository(db)
 	bookService := book.NewService(bookRepository)
+	bookHandler := handler.NewBookHandler(bookService)
 
 	// =================
-	// READ ALL
+	// READ ALL 
 	// =================
-	books, err := bookService.FindAll()
-	if err != nil {
-		fmt.Println("================================")
-		fmt.Println("Error saat menampilkan data buku")
-		fmt.Println("================================")
-	}
+	// books, err := bookService.FindAll()
+	// if err != nil {
+	// 	fmt.Println("================================")
+	// 	fmt.Println("Error saat menampilkan data buku")
+	// 	fmt.Println("================================")
+	// }
 	
-	for _, book := range books {
-		fmt.Println("Title :", book.Title)
-	}
+	// for _, book := range books {
+	// 	fmt.Println("Title :", book.Title)
+	// }
 
 	// =================
 	// READ BY ID
 	// =================
-	idBook, err := bookService.FindById(1)
-	if err != nil {
-		fmt.Println("================================")
-		fmt.Println("Error saat menampilkan data buku")
-		fmt.Println("================================")
-	}
+	// idBook, err := bookService.FindById(1)
+	// if err != nil {
+	// 	fmt.Println("================================")
+	// 	fmt.Println("Error saat menampilkan data buku")
+	// 	fmt.Println("================================")
+	// }
 
-	fmt.Println("Cari Title by id :", idBook.Title)
+	// fmt.Println("Cari Title by id :", idBook.Title)
 
 	// =================
 	// CREATE DATA BOOK
@@ -202,11 +196,17 @@ func main() {
 	v1 := r.Group("/v1")
 
 	// coba buat routing 
-	v1.GET("/", handler.RootHandler)
-	v1.GET("/hello", handler.HelloHandler)
-	v1.GET("/books/:id/:title", handler.BooksHandler)
-	v1.GET("/query", handler.QueryHandler)
-	v1.POST("/books", handler.PostBooksHandler)
+	v1.GET("/", bookHandler.RootHandler)
+	v1.GET("/hello", bookHandler.HelloHandler)
+	v1.GET("/books/:id/:title", bookHandler.BooksHandler)
+	v1.GET("/query", bookHandler.QueryHandler)
+
+	// routing CRUD book
+	v1.GET("/books/:id", bookHandler.GetBook)
+	v1.GET("/books", bookHandler.GetBooks)
+	v1.POST("/books", bookHandler.PostBook)
+	v1.PUT("/books/:id", bookHandler.UpdateBook)
+	v1.DELETE("/books/:id", bookHandler.DeleteBook)
 
 	r.Run()
 	// bisa mengganti default port

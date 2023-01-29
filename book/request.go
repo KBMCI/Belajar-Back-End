@@ -8,4 +8,12 @@ type BookRequest struct {
 	Price 		int		`json:"price" binding:"required"`
 	Rating 		int		`json:"rating" binding:"required"`	
 	Discount	int		`json:"discount" binding:"required"`
+
+}
+type UpdateBookRequest struct {
+	Title 		string	`json:"title"`
+	Description string	`json:"description"`
+	Price 		int		`json:"price"`
+	Rating 		int		`json:"rating"`	
+	Discount	int		`json:"discount"`
 }
